@@ -4,6 +4,7 @@ plugins {
 }
 
 group = "io.github.canary-prism"
+description = "A java implementation of the NBT protocol for Minecraft Java Edition."
 version = "6.2.0"
 
 repositories {
