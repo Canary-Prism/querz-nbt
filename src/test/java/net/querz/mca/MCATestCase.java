@@ -1,5 +1,6 @@
 package net.querz.mca;
 
+import net.querz.nbt.tag.ByteTag;
 import net.querz.nbt.tag.CompoundTag;
 import net.querz.nbt.tag.ListTag;
 import net.querz.NBTTestCase;
@@ -14,7 +15,7 @@ public abstract class MCATestCase extends NBTTestCase {
 
 	public CompoundTag getSection(CompoundTag chunk, int y) {
 		for (CompoundTag section : chunk.getCompoundTag("Level").getListTag("Sections").asCompoundTagList()) {
-			if (section.getByte("Y") == y) {
+			if (section.getByte("Y").orElse(ByteTag.ZERO_VALUE) == y) {
 				return section;
 			}
 		}

@@ -1,9 +1,8 @@
 package net.querz.nbt.tag;
 
-import net.querz.io.MaxDepthReachedException;
 import net.querz.NBTTestCase;
+import net.querz.io.MaxDepthReachedException;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -174,9 +173,9 @@ public class CompoundTagTest extends NBTTestCase {
 		assertEquals(Byte.MAX_VALUE, cc.get("b", ByteTag.class).asByte());
 		assertThrowsRuntimeException(() -> cc.getShort("b"), ClassCastException.class);
 		assertEquals(0, cc.getByte("bb"));
-		assertTrue(cc.getBoolean("b"));
+		assertTrue(cc.getBoolean("b").orElse(false));
 		cc.putByte("b2", (byte) 0);
-		assertFalse(cc.getBoolean("b2"));
+		assertFalse(cc.getBoolean("b2").orElse(false));
 		cc.putBoolean("b3", false);
 		assertEquals(0, cc.getByte("b3"));
 		cc.putBoolean("b4", true);
@@ -229,21 +228,21 @@ public class CompoundTagTest extends NBTTestCase {
 		assertNull(cc.getByteArrayTag("baba"));
 		assertArrayEquals(new byte[] { Byte.MIN_VALUE, 0, Byte.MAX_VALUE }, cc.get("ba", ByteArrayTag.class).getValue());
 		assertThrowsRuntimeException(() -> cc.getIntArray("ba"), ClassCastException.class);
-		assertArrayEquals(new byte[0], cc.getByteArray("baba"));
+		assertArrayEquals(new byte[0], cc.getByteArray("baba").orElse(ByteArrayTag.ZERO_VALUE));
 
 		cc.putIntArray("ia", new int[]{Integer.MIN_VALUE, 0, Integer.MAX_VALUE});
 		assertEquals(new IntArrayTag(new int[]{Integer.MIN_VALUE, 0, Integer.MAX_VALUE}), cc.getIntArrayTag("ia"));
 		assertNull(cc.getIntArrayTag("iaia"));
 		assertArrayEquals(new int[] { Integer.MIN_VALUE, 0, Integer.MAX_VALUE }, cc.get("ia", IntArrayTag.class).getValue());
 		assertThrowsRuntimeException(() -> cc.getLongArray("ia"), ClassCastException.class);
-		assertArrayEquals(new int[0], cc.getIntArray("iaia"));
+		assertArrayEquals(new int[0], cc.getIntArray("iaia").orElse(IntArrayTag.ZERO_VALUE));
 
 		cc.putLongArray("la", new long[]{Long.MIN_VALUE, 0, Long.MAX_VALUE});
 		assertEquals(new LongArrayTag(new long[]{Long.MIN_VALUE, 0, Long.MAX_VALUE}), cc.getLongArrayTag("la"));
 		assertNull(cc.getLongArrayTag("lala"));
 		assertArrayEquals(new long[] { Long.MIN_VALUE, 0, Long.MAX_VALUE }, cc.get("la", LongArrayTag.class).getValue());
 		assertThrowsRuntimeException(() -> cc.getListTag("la"), ClassCastException.class);
-		assertArrayEquals(new long[0], cc.getLongArray("lala"));
+		assertArrayEquals(new long[0], cc.getLongArray("lala").orElse(LongArrayTag.ZERO_VALUE));
 
 		cc.put("li", new ListTag<>(IntTag.class));
 		assertEquals(new ListTag<>(IntTag.class), cc.getListTag("li"));

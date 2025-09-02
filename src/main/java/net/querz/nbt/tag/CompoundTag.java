@@ -1,14 +1,9 @@
 package net.querz.nbt.tag;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.BiConsumer;
-
 import net.querz.io.MaxDepthIO;
+
+import java.util.*;
+import java.util.function.BiConsumer;
 
 public class CompoundTag extends Tag<Map<String, Tag<?>>>
 		implements Iterable<Map.Entry<String, Tag<?>>>, Comparable<CompoundTag>, MaxDepthIO {
@@ -141,59 +136,59 @@ public class CompoundTag extends Tag<Map<String, Tag<?>>>
 		return get(key, CompoundTag.class);
 	}
 
-	public boolean getBoolean(String key) {
-		Tag<?> t = get(key);
-		return t instanceof ByteTag && ((ByteTag) t).asByte() > 0;
+	public Optional<Boolean> getBoolean(String key) {
+		return Optional.ofNullable(getByteTag(key))
+				.map((e) -> e.asByte() > 0);
 	}
 
-	public byte getByte(String key) {
-		ByteTag t = getByteTag(key);
-		return t == null ? ByteTag.ZERO_VALUE : t.asByte();
+	public Optional<Byte> getByte(String key) {
+		return Optional.ofNullable(getByteTag(key))
+				.map(NumberTag::asByte);
 	}
 
-	public short getShort(String key) {
-		ShortTag t = getShortTag(key);
-		return t == null ? ShortTag.ZERO_VALUE : t.asShort();
+	public Optional<Short> getShort(String key) {
+		return Optional.ofNullable(getShortTag(key))
+				.map(NumberTag::asShort);
 	}
 
-	public int getInt(String key) {
-		IntTag t = getIntTag(key);
-		return t == null ? IntTag.ZERO_VALUE : t.asInt();
+	public Optional<Integer> getInt(String key) {
+		return Optional.ofNullable(getIntTag(key))
+				.map(NumberTag::asInt);
 	}
 
-	public long getLong(String key) {
-		LongTag t = getLongTag(key);
-		return t == null ? LongTag.ZERO_VALUE : t.asLong();
+	public Optional<Long> getLong(String key) {
+		return Optional.ofNullable(getLongTag(key))
+				.map(NumberTag::asLong);
 	}
 
-	public float getFloat(String key) {
-		FloatTag t = getFloatTag(key);
-		return t == null ? FloatTag.ZERO_VALUE : t.asFloat();
+	public Optional<Float> getFloat(String key) {
+		return Optional.ofNullable(getFloatTag(key))
+				.map(NumberTag::asFloat);
 	}
 
-	public double getDouble(String key) {
-		DoubleTag t = getDoubleTag(key);
-		return t == null ? DoubleTag.ZERO_VALUE : t.asDouble();
+	public Optional<Double> getDouble(String key) {
+		return Optional.ofNullable(getDoubleTag(key))
+				.map(NumberTag::asDouble);
 	}
 
-	public String getString(String key) {
-		StringTag t = getStringTag(key);
-		return t == null ? StringTag.ZERO_VALUE : t.getValue();
+	public Optional<String> getString(String key) {
+		return Optional.ofNullable(getStringTag(key))
+				.map(StringTag::getValue);
 	}
 
-	public byte[] getByteArray(String key) {
-		ByteArrayTag t = getByteArrayTag(key);
-		return t == null ? ByteArrayTag.ZERO_VALUE : t.getValue();
+	public Optional<byte[]> getByteArray(String key) {
+		return Optional.ofNullable(getByteArrayTag(key))
+				.map(ByteArrayTag::getValue);
 	}
 
-	public int[] getIntArray(String key) {
-		IntArrayTag t = getIntArrayTag(key);
-		return t == null ? IntArrayTag.ZERO_VALUE : t.getValue();
+	public Optional<int[]> getIntArray(String key) {
+		return Optional.ofNullable(getIntArrayTag(key))
+				.map(IntArrayTag::getValue);
 	}
 
-	public long[] getLongArray(String key) {
-		LongArrayTag t = getLongArrayTag(key);
-		return t == null ? LongArrayTag.ZERO_VALUE : t.getValue();
+	public Optional<long[]> getLongArray(String key) {
+		return Optional.ofNullable(getLongArrayTag(key))
+				.map(LongArrayTag::getValue);
 	}
 
 	public Tag<?> put(String key, Tag<?> tag) {

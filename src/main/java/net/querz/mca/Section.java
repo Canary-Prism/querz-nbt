@@ -1,15 +1,10 @@
 package net.querz.mca;
 
+import net.querz.nbt.tag.*;
+
+import java.util.*;
+
 import static net.querz.mca.LoadFlags.*;
-import net.querz.nbt.tag.ByteArrayTag;
-import net.querz.nbt.tag.CompoundTag;
-import net.querz.nbt.tag.ListTag;
-import net.querz.nbt.tag.LongArrayTag;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Section implements Comparable<Section> {
 
@@ -60,7 +55,7 @@ public class Section implements Comparable<Section> {
 
 	void putValueIndexedPalette(CompoundTag data, int index) {
 		PaletteIndex leaf = new PaletteIndex(data, index);
-		String name = data.getString("Name");
+		String name = data.getString("Name").orElse(StringTag.ZERO_VALUE);
 		List<PaletteIndex> leaves = valueIndexedPalette.get(name);
 		if (leaves == null) {
 			leaves = new ArrayList<>(1);

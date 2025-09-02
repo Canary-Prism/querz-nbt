@@ -1,10 +1,10 @@
 package net.querz.mca;
 
-import net.querz.nbt.tag.CompoundTag;
-import net.querz.nbt.tag.ListTag;
+import net.querz.nbt.tag.*;
 import net.querz.nbt.io.NamedTag;
 import net.querz.nbt.io.NBTDeserializer;
 import net.querz.nbt.io.NBTSerializer;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -74,11 +74,11 @@ public class Chunk implements Iterable<Section> {
 		if ((level = data.getCompoundTag("Level")) == null) {
 			throw new IllegalArgumentException("data does not contain \"Level\" tag");
 		}
-		dataVersion = data.getInt("DataVersion");
-		inhabitedTime = level.getLong("InhabitedTime");
-		lastUpdate = level.getLong("LastUpdate");
+		dataVersion = data.getInt("DataVersion").orElse(IntTag.ZERO_VALUE);
+		inhabitedTime = level.getLong("InhabitedTime").orElse(LongTag.ZERO_VALUE);
+		lastUpdate = level.getLong("LastUpdate").orElse(LongTag.ZERO_VALUE);
 		if ((loadFlags & BIOMES) != 0) {
-			biomes = level.getIntArray("Biomes");
+			biomes = level.getIntArray("Biomes").orElse(IntArrayTag.ZERO_VALUE);
 		}
 		if ((loadFlags & HEIGHTMAPS) != 0) {
 			heightMaps = level.getCompoundTag("Heightmaps");
@@ -110,7 +110,7 @@ public class Chunk implements Iterable<Section> {
 		if ((loadFlags & POST_PROCESSING) != 0) {
 			postProcessing = level.containsKey("PostProcessing") ? level.getListTag("PostProcessing").asListTagList() : null;
 		}
-		status = level.getString("Status");
+		status = level.getString("Status").orElse(StringTag.ZERO_VALUE);
 		if ((loadFlags & STRUCTURES) != 0) {
 			structures = level.getCompoundTag("Structures");
 		}

@@ -148,7 +148,7 @@ public class SNBTParserTest extends NBTTestCase {
 		assertEquals(4, ((CompoundTag) ct).size());
 		assertEquals("def", assertThrowsNoException(() -> ((CompoundTag) ct).getString("abc")));
 		assertEquals(123D, assertThrowsNoException(() -> ((CompoundTag) ct).getDouble("key")));
-		assertTrue(Arrays.equals(new long[]{123, 456}, assertThrowsNoException(() -> ((CompoundTag) ct).getLongArray("blah"))));
+		assertTrue(Arrays.equals(new long[]{123, 456}, assertThrowsNoException(() -> ((CompoundTag) ct).getLongArray("blah").orElse(LongArrayTag.ZERO_VALUE))));
 		assertEquals(2, assertThrowsNoException(() -> ((CompoundTag) ct).getListTag("blubb")).size());
 		assertEquals(IntTag.class, ((CompoundTag) ct).getListTag("blubb").getTypeClass());
 
