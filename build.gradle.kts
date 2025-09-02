@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.github.canary-prism"
-version = "6.1"
+version = "6.2.0"
 
 repositories {
 	mavenCentral()
